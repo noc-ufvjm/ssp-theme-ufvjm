@@ -20,6 +20,39 @@
     <script src="<?php echo SimpleSAML_Module::getModuleURL('themeufvjm/libs/js/bootstrap.min.js'); ?>"> </script>
 </head>
 
+<?php
+    $authStateId = $_REQUEST['AuthState'];
+
+    // Retrieve the authentication state.
+    $state = SimpleSAML_Auth_State::loadState($authStateId, sspmod_core_Auth_UserPassBase::STAGEID);
+    //var_dump($state['SPMetadata']);
+
+    if (array_key_exists('SPMetadata', $state)){
+        $SPentityID                = $state['SPMetadata']['entityid'];
+    //    $SPName                    = $state['SPMetadata']['name']['en'];
+    //    $SPDisplayName             = $state['SPMetadata']['UIInfo']['DisplayName']['en'];
+    //    $SPDescription             = $state['SPMetadata']['UIInfo']['Description']['en'];
+    //    $SPOrganizationName        = $state['SPMetadata']['OrganizationName']['en'];
+    //    $SPOrganizationDisplayName = $state['SPMetadata']['OrganizationDisplayName']['en'];
+    //    $SPOrganizationURL         = $state['SPMetadata']['OrganizationURL']['en'];
+
+        $SPinfo = $SPentityID;
+        if (array_key_exists('en', $state['SPMetadata']['UIInfo']['DisplayName'])) {
+            $SPinfo = $state['SPMetadata']['UIInfo']['DisplayName']['en'];
+        }
+        elseif (array_key_exists('en', $state['SPMetadata']['OrganizationName'])){
+            $SPinfo = $state['SPMetadata']['OrganizationName']['en'];
+        }
+        elseif (array_key_exists('en', $state['SPMetadata']['OrganizationDisplayName'])){
+            $SPinfo = $state['SPMetadata']['OrganizationDisplayName']['en'];
+        }
+        elseif (array_key_exists('en', $state['SPMetadata']['name'])){
+            $SPinfo = $state['SPMetadata']['name']['en'];
+        }
+    }
+    else {    $SPinfo = "Provedor de Serviços não especificado";}
+?>
+
 <body class="login">
     <div class="container" id="wrap">
 
@@ -35,7 +68,7 @@
             <div class="col-md-5";">
                 <h5><b>Foi solicitado a autenticação para o serviço:</b></h5>
 
-	        <h6>Unspecified Service Provider</h6>
+                <h6><?php echo "$SPinfo";?></h6> 
 
                 <form class="form-signin" name="loginform" id="loginform" method="post">
                     <input type="text" name="username" id="username" class="form-control" placeholder="Login" required autofocus>
