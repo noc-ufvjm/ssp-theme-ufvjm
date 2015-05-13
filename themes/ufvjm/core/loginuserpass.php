@@ -73,11 +73,14 @@
                 <form class="form-signin" name="loginform" id="loginform" method="post">
                     <input type="text" name="username" id="username" class="form-control" placeholder="Login" required autofocus>
                     <input type="password" name="password" id="user_pass" class="form-control" placeholder="Senha" required>
+<!--
                     <div class="checkbox">
                         <label>
                             <input name="rememberme" type="checkbox" id="rememberme" value="forever">Lembrar
                         </label>
                     </div>
+-->
+                    <div id="space2"></div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 
                     <!-- MENSAGEM DE ERRO -->
